@@ -1,6 +1,7 @@
 package hiber.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -37,10 +38,8 @@ public class User {
     }
 
     public User(Car car, String firstName, String lastName, String email) {
+        this(firstName, lastName, email);
         this.car = car;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
     }
 
     public Long getId() {
@@ -81,5 +80,36 @@ public class User {
 
     public void setCar(Car car) {
         this.car = car;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", car=" + car +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email)
+                && Objects.equals(car, user.car);
+    }
+
+    @Override
+    public int hashCode() {
+        int res = id != null ? id.hashCode() : 0;
+        res = 17 * res + (firstName != null ? firstName.hashCode() : 0);
+        res = 17 * res + (lastName != null ? lastName.hashCode() : 0);
+        res = 17 * res + (email != null ? email.hashCode() : 0);
+        res = 17 * res + (car != null ? car.hashCode() : 0);
+        return res;
     }
 }
